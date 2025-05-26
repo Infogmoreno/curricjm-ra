@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+
+    <script>
+      AFRAME.registerComponent("play-pause", {
+        init: function () {
+          var video = document.querySelector("#video");
+          this.el.addEventListener("click", function () {
+            if (video.paused) {
+              video.play();
+              video.autoplay = true;
+            } else {
+              video.pause();
+              video.currentTime() = 0;
+              video.autoplay = false;
+            }
+          });
+        },
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene
+      xr-mode-ui="XRMode: ar;"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+    >
+      <a-assets>
+        <img
+          id="card"
+          src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png"
+        />
+        <video
+          id="video"
+          src="https://cdn.glitch.me/ec097a34-d9f4-49e5-8012-cd6fdd4238e9/curric_ra.webm?v=1747989608714"
+          autoplay
+          loop="true"
+          preload
+          crossorigin="anonymous"
+        ></video>
+        <a-asset-item
+          id="avatarModel"
+          src="https://cdn.glitch.global/ec097a34-d9f4-49e5-8012-cd6fdd4238e9/coche_cartoon_JM.glb?v=1744705198044"
+          crossorigin="anonymous"
+        ></a-asset-item>
+      </a-assets>
+
+      <a-entity>
+        <a-plane
+          id="curric"
+          class="clickable"
+          src="#video"
+          position="0 1 -1.3"
+          height="0.85"
+          width="1.7"
+          rotation="0 0 0"
+          transparent="true"
+          opacity="0.95"
+          play-pause
+        ></a-plane>
+      </a-entity>
+      <a-entity camera look-controls position="0 1.5 0">
+        <a-entity
+          cursor="fuse: true; fuseTimeout: 20; rayorigin: entity"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.0058; radiusOuter: 0.007"
+          material="color: cyan; shader: flat; opacity:0.5"
+          raycaster="objects: .clickable"
+        >
+        </a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
